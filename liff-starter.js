@@ -95,7 +95,11 @@ function displayIsInClientInfo() {
     }
 }
 
+/**
+ * Register event handlers for the buttons displayed in the app
+ */
 function registerButtonHandlers() {
+    // openWindow call
     document.getElementById('openWindowButton').addEventListener('click', function () {
         liff.openWindow({
             url: 'https://catatan-harian-line-liff.herokuapp.com/', // Isi dengan Endpoint URL aplikasi web Anda
@@ -103,6 +107,7 @@ function registerButtonHandlers() {
         });
     });
 
+    // closeWindow call
     document.getElementById('closeWindowButton').addEventListener('click', function () {
         if (!liff.isInClient()) {
             sendAlertIfNotInClient();
@@ -111,19 +116,7 @@ function registerButtonHandlers() {
         }
     });
 
-    document.getElementById('liffLoginButton').addEventListener('click', function () {
-        if (!liff.isLoggedIn()) {
-            liff.login();
-        }
-    });
-
-    document.getElementById('liffLogoutButton').addEventListener('click', function () {
-        if (liff.isLoggedIn()) {
-            liff.logout();
-            window.location.reload();
-        }
-    });
-
+    // sendMessages call
     document.getElementById('sendMessageButton').addEventListener('click', function () {
         if (!liff.isInClient()) {
             sendAlertIfNotInClient();
@@ -138,10 +131,27 @@ function registerButtonHandlers() {
             });
         }
     });
+
+    // login call, only when external browser is used
+    document.getElementById('liffLoginButton').addEventListener('click', function () {
+        if (!liff.isLoggedIn()) {
+            // set `redirectUri` to redirect the user to a URL other than the front page of your LIFF app.
+            liff.login();
+        }
+    });
+
+    // logout call only when external browse
+    document.getElementById('liffLogoutButton').addEventListener('click', function () {
+        if (liff.isLoggedIn()) {
+            liff.logout();
+            window.location.reload();
+        }
+    });
 }
 
-
-
+/**
+ * Alert the user if LIFF is opened in an external browser and unavailable buttons are tapped
+ */
 function sendAlertIfNotInClient() {
     alert('This button is unavailable as LIFF is currently being opened in an external browser.');
 }
